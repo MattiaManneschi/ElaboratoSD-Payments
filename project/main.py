@@ -1,11 +1,11 @@
+import random
 import string
 
 from flask import Blueprint, render_template, request
 from flask_login import login_required, current_user
+
 from project.server import get_data
 from . import db
-import random
-
 from .models import Order
 
 main = Blueprint('main', __name__)
@@ -70,6 +70,11 @@ def removePoints():
 
     db.session.commit()
     return render_template('index.html')
+
+
+@main.route('/KO', methods=['POST', 'GET'])
+def ko():
+    return render_template("ko.html")
 
 
 def generateCode(length):
