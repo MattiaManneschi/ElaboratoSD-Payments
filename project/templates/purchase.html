@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+    <div>
+        <div class="title">You selected
+            <p id="output" class="title">!</p>
+        </div>
+        <div class="title">Your total amount of points is: {{ total_points }}</div>
+        <div>
+            <div class="title">
+                Type the number of points you want to spend:
+            </div>
+            <form method="POST" action="/order">
+                <input type="text" style="width: 5%" name="tag" onchange="checkValue(this.value);">
+                <input type="submit" id="button" value="Confirm order">
+            </form>
+        </div>
+    </div>
+    <script>
+        window.onload = function () {
+            document.getElementById("output").innerHTML = localStorage["category"]
+            document.getElementById("button").disabled = true
+        }
+
+        function checkValue(val){
+            if (val > {{ total_points }} || val === "0"){
+                document.getElementById("button").disabled = true
+            } else{
+                document.getElementById("button").disabled = false
+            }
+        }
+    </script>
+{% endblock %}

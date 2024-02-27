@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div id="container"></div>
+
+<script>
+    const baseRequest = {
+        apiVersion: 2,
+        apiVersionMinor: 0
+    };
+
+    const floatPrice = {{ price }}
+
+    const totalFloatPrice = floatPrice + 1.00 //add tax
+
+    const myPrice = floatPrice.toString()
+
+    const myTotalPrice = totalFloatPrice.toString()
+
+    const allowedCardNetworks = ["AMEX", "DISCOVER", "INTERAC", "JCB", "MASTERCARD", "VISA"];
+
+    const allowedCardAuthMethods = ["PAN_ONLY", "CRYPTOGRAM_3DS"];
+
+    const tokenizationSpecification = {
+        type: 'PAYMENT_GATEWAY',
+        parameters: {
+            'gateway': 'example',
+            gatewayMerchantId: 'my_id'
+        }
+    };
+
+    const baseCardPaymentMethod = {
+        type: 'CARD',
+        parameters: {
+            allowedAuthMethods: allowedCardAuthMethods,
+            allowedCardNetworks: allowedCardNetworks
+        }
+    };
+
+    const cardPaymentMethod = Object.assign(
+        {},
+        baseCardPaymentMethod,
+        {
+            tokenizationSpecification: tokenizationSpecification
+        }
+    );
+
+    let paymentsClient = null;
+
+
+    function getGoogleIsReadyToPayRequest() {
+        return Object.assign(
+            {},
+            baseRequest,
+            {
+                allowedPaymentMethods: [baseCardPaymentMethod]
+            }
+        );
+    }
+
+    function getGooglePaymentDataRequest() {
+        const paymentDataRequest = Object.assign({}, baseRequest);
+        paymentDataRequest.allowedPaymentMethods = [cardPaymentMethod];
+        paymentDataRequest.transactionInfo = getGoogleTransactionInfo();
+        paymentDataRequest.merchantInfo = {
+            merchantName: 'Wally'
+        };
+
+        paymentDataRequest.callbackIntents = ["PAYMENT_AUTHORIZATION"];
+
+        return paymentDataRequest;
+    }
+
+    function getGooglePaymentsClient() {
+        if (paymentsClient === null) {
+            paymentsClient = new google.payments.api.PaymentsClient({
+                environment: 'TEST',
+                paymentDataCallbacks: {
+                    onPaymentAuthorized: onPaymentAuthorized
+                }
+            });
+        }
+        return paymentsClient;
+    }
+
+    function onPaymentAuthorized(paymentData) {
+        return new Promise(function (resolve, reject) {
+            // handle the response
+            processPayment(paymentData)
+                .then(function () {
+                    resolve({transactionState: 'SUCCESS'});
+                    location.href = "/addPoints"
+                })
+                .catch(function () {
+                    resolve({
+                        transactionState: 'ERROR',
+                        error: {
+                            intent: 'PAYMENT_AUTHORIZATION',
+                            message: 'Insufficient funds',
+                            reason: 'PAYMENT_DATA_INVALID'
+                        },
+                    });
+                    location.href = "/"
+                });
+        });
+    }
+
+    function onGooglePayLoaded() {
+        const paymentsClient = getGooglePaymentsClient();
+        paymentsClient.isReadyToPay(getGoogleIsReadyToPayRequest())
+            .then(function (response) {
+                if (response.result) {
+                    addGooglePayButton();
+                }
+            })
+            .catch(function (err) {
+                // show error in developer console for debugging
+                console.error(err);
+            });
+    }
+
+    function addGooglePayButton() {
+        const paymentsClient = getGooglePaymentsClient();
+        const button =
+            paymentsClient.createButton({
+                onClick: onGooglePaymentButtonClicked,
+                allowedPaymentMethods: [baseCardPaymentMethod]
+            });
+        document.getElementById('container').appendChild(button);
+    }
+
+    function getGoogleTransactionInfo() {
+        return {
+            displayItems: [
+                {
+                    label: "Subtotal",
+                    type: "SUBTOTAL",
+                    price: myPrice,
+                },
+                {
+                    label: "Tax",
+                    type: "TAX",
+                    price: "1.00",
+                }
+            ],
+            countryCode: 'IT',
+            currencyCode: "EUR",
+            totalPriceStatus: "FINAL",
+            totalPrice: myTotalPrice,
+            totalPriceLabel: "Total"
+        };
+    }
+
+
+    function onGooglePaymentButtonClicked() {
+        const paymentDataRequest = getGooglePaymentDataRequest();
+        paymentDataRequest.transactionInfo = getGoogleTransactionInfo();
+
+        const paymentsClient = getGooglePaymentsClient();
+        paymentsClient.loadPaymentData(paymentDataRequest);
+    }
+
+    function processPayment(paymentData) {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                paymentToken = paymentData.paymentMethodData.tokenizationData.token;
+                resolve({});
+            }, 3000);
+        });
+    }</script>
+<script async
+        src="https://pay.google.com/gp/p/js/pay.js"
+        onload="onGooglePayLoaded()">
+
+</script>
+
+
+
+{% endblock %}
