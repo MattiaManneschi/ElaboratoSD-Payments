@@ -41,7 +41,6 @@ def wallet():
 def callServer():
     global points
     points = request.form['tag']
-
     price = request.form['price']
     return get_data(price)
 
