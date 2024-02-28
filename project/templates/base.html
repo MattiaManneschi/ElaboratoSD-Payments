@@ -6,57 +6,58 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Wally</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 
-<body>
-    <section class="hero is-primary is-fullheight">
-
-        <div class="hero-head">
-            <nav class="navbar">
-                <div class="container">
-                    <div id="navbarMenuHeroA" class="navbar-menu">
-                        <div class="navbar-end">
-                            <a href="{{ url_for('main.index') }}" class="navbar-item">
-                                Home
-                            </a>
-                            {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('main.profile') }}" class="navbar-item">
-                                Profile
-                            </a>
-                            {% endif %}
-                            {% if not current_user.is_authenticated %}
-                            <a href="{{ url_for('auth.login') }}" class="navbar-item">
-                                Login
-                            </a>
-                            <a href="{{ url_for('auth.signup') }}" class="navbar-item">
-                                Sign Up
-                            </a>
-                            {% endif %}
-                            {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('auth.logout') }}" class="navbar-item">
-                                Logout
-                            </a>
-                            <a href="{{ url_for('main.wallet') }}" class = "navbar-item">
-                                Wallet
-                            </a>
-                            <a href="{{ url_for('auth.deleteAccount') }}" class = "navbar-item">
-                                Delete account
-                            </a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </div>
-
-        <div class="hero-body">
-            <div class="container has-text-centered">
-               {% block content %}
-               {% endblock %}
+<body class="font-[kanit] bg-gradient-to-t from-[#020617] to-[#f8fafc] h-screen">
+    <header class="">
+        <nav class="flex justify-between items-center w-[92%] mx-auto">
+            <div>
+                <img class="w-16" src="https://i.fbcd.co/products/resized/resized-750-500/c52abe6a85405a6d5253d14f816079bc74cd3ccd29b076a137cbca199853a030.jpg" alt="...">
             </div>
+            <div class="nav-links duration-500 md:static text-black absolute md:min-h-fit min-h-[60vh] left-0 top-[9%] md:w-auto w-full flex items-center px-5">
+                <ul class="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8">
+                    <li>
+                        <a class="hover:text-gray-500" href="{{ url_for('main.index') }}">Home</a>
+                    </li>
+                    <li>
+                        <a class="hover:text-gray-500" href="{{ url_for('main.aboutUs') }}">About us</a>
+                    </li>
+                    {% if not current_user.is_authenticated %}
+                    <li>
+                        <a class="hover:text-gray-500" href="{{ url_for('auth.login') }}">Log in</a>
+                    <li>
+                        <a class="hover:text-gray-500" href="{{ url_for('auth.signup') }}">Sign up</a>
+                    </li>
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+                    <li>
+                        <a class="hover:text-gray-500" href="{{ url_for('main.profile') }}">Profile</a>
+                    </li>
+                    <li>
+                        <a class="hover:text-gray-500" href="{{ url_for('auth.logout') }}">Log out</a>
+                    </li>
+                    <li>
+                        <a class="hover:text-gray-500" href="{{ url_for('main.wallet') }}">Wallet</a>
+                    </li>
+                    <li>
+                        <a class="hover:text-gray-500" href="{{ url_for('auth.deleteAccount') }}">Delete account</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="text-3xl">
+        <div class="container">
+            {% block content %}
+            {% endblock %}
         </div>
-    </section>
+    </div>
 </body>
 
 </html>

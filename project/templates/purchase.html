@@ -1,18 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
-    <div>
-        <div class="title">You selected
-            <p id="output" class="title">!</p>
-        </div>
-        <div class="title">Your total amount of points is: {{ total_points }}</div>
+    <div class="grid place-items-center justify-center mt-20">
         <div>
             <div class="title">
+                You selected: <a id="output" class="title"></a>
+            </div>
+            <div class="title mt-10">
+                Your total amount of points is: {{ total_points }}
+            </div>
+        </div>
+        <div class="align-items-center justify-center ml-20 mt-20">
+            <div class="text-black">
                 Type the number of points you want to spend:
             </div>
-            <form method="POST" action="/order">
-                <input type="text" style="width: 5%" name="tag" onchange="checkValue(this.value);">
-                <input type="submit" id="button" value="Confirm order">
+            <div>
+                <form method="POST" action="/order">
+                    <div>
+                        <label for="small-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                        <input onchange="checkValue(this.value)" placeholder="Digits here" type="text" id="small-input" name="tag" class="block w-40 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+                    <button
+                        class="flex mt-10 border-white align-right select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
+                        type="submit" id="button">
+                        Confirm order
+                    </button>
             </form>
+            </div>
         </div>
     </div>
     <script>

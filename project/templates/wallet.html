@@ -5,21 +5,24 @@ function setPrice(val){
     document.getElementById("price").value = val*1.25 + " €"
 }
 </script>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/wallet.css') }}">
-<div class="title" id="title">
-You have a total of {{ total_points }} points!
+<div class="w-full h-screen mt-20 ml-10">
+    <div class="title" id="title">
+        You have a total of {{ total_points }} points!
+    </div>
+    <div>
+        <div class="mt-5">
+            Decide the amount of points you want to add:
+        </div>
+        <form method="POST" action="/callServer">
+            <label>
+                <input class="border-solid border-2 border-black rounded" type="text" name="tag" style="width:5%; height: 5%" onchange="setPrice(this.value)">
+            </label>
+            <label for="price"></label><input class="border-solid border-2 border-black rounded" type="text" name="price" style="width:5%;height:5%;" id="price" value="">
+                <input class="border-solid border-2 border-black rounded cursor-pointer" type="submit" value="Add points">
+        </form>
+    </div>
 </div>
-<div>
-<div class="title">
-    Decide the amount of points you want to add:
-</div>
-<form method="POST" action="/callServer">
-    <input type="text" name="tag" style="width:5%; height: 5%" onchange="setPrice(this.value)">
-    <input type="text" name="price" style="width:5%;height:5%;" id="price" value="">
-    <input type="submit" value="Add points">
-</form>
 
-</div>
 
 
 {% endblock %}

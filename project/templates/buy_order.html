@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div id="container"></div>
+<div class="grid place-items-center mt-20">
+    These are your available providers:
+</div>
+
+<div class="grid place-items-center mt-5" id="container"></div>
 
 <script>
     const baseRequest = {
@@ -11,7 +15,7 @@
 
     const floatPrice = {{ price }}
 
-    const totalFloatPrice = floatPrice + 1.00 //add tax
+    const totalFloatPrice = floatPrice + 1.00
 
     const myPrice = floatPrice.toString()
 

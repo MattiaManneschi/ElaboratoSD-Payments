@@ -1,37 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="column is-4 is-offset-4">
-    <h3 class="title">Sign Up</h3>
-    <div class="box">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="notification is-danger">
-                {{ messages[0] }}.Go to <a href="{{ url_for('auth.login')}}">login page</a>
-            </div>
-        {% endif %}
-        {% endwith %}
-        <form method="POST" action="/signup">
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="email" name="email" placeholder="Email" autofocus="">
+<div class="h-screen flex items-center justify-center text-xl">
+            <div class="w-full py-8">
+                <div class="bg-white w-5/6 md:w-3/4 lg:w-2/3 xl:w-[500px] 2xl:w-[550px] mt-8 mx-auto px-16 py-8 rounded-lg shadow-2xl">
+
+                    <h2 class="text-center text-2xl font-bold tracking-wide text-gray-800">Sign Up</h2>
+                    <p class="text-center text-sm text-gray-600 mt-2">Already have an account? <a href="{{ url_for('auth.login') }}" class="text-blue-600 hover:text-blue-700 hover:underline" title="Sign In">Sign in here</a></p>
+
+                    <form class="my-8" method="POST" action="/signup">
+                        <div class="flex flex-col my-4">
+                            <label for="name" class="text-gray-700">Name</label>
+                            <input type="text" name="name" id="name" class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="Enter your name">
+                        </div>
+
+                        <div class="flex flex-col my-4">
+                            <label for="email" class="text-gray-700">Email Address</label>
+                            <input type="email" name="email" id="email" class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="Enter your email">
+                        </div>
+
+                        <div class="flex flex-col my-4">
+                            <label for="password" class="text-gray-700">Password</label>
+                            <div class="relative flex items-center mt-2">
+                                <input name="password" id="password" class="flex-1 p-2 pr-10 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900" placeholder="Enter your password" type="password">
+                            </div>
+                        </div>
+
+                        <div class="flex items-center">
+                            <input type="checkbox" name="remember_me" id="remember_me" class="mr-2 focus:ring-0 rounded">
+                            <label for="remember_me" class="text-gray-700">I accept the <a href="#" class="text-blue-600 hover:text-blue-700 hover:underline">terms</a> and <a href="#" class="text-blue-600 hover:text-blue-700 hover:underline">privacy policy</a></label>
+                        </div>
+
+                        <div class="my-4 flex items-center justify-end space-x-4">
+                            <button class="bg-blue-600 hover:bg-blue-700 rounded-lg px-8 py-2 text-gray-100 hover:shadow-xl transition duration-150 uppercase">Sign Up</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="text" name="name" placeholder="Name" autofocus="">
-                </div>
-            </div>
-
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="password" name="password" placeholder="Password">
-                </div>
-            </div>
-
-            <button class="button is-block is-info is-large is-fullwidth">Sign Up</button>
-        </form>
-    </div>
-</div>
+        </div>
 {% endblock %}

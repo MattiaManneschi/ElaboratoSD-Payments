@@ -77,6 +77,11 @@ def ko():
     return render_template("ko.html")
 
 
+@main.route('/aboutUs', methods=['POST', 'GET'])
+def aboutUs():
+    return render_template("aboutUs.html")
+
+
 def generateCode(length):
     characters = string.ascii_lowercase
 
