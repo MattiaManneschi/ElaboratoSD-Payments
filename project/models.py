@@ -7,7 +7,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
-    total_points = db.Column(db.Integer)
+    total_points = db.Column(db.Integer, default=0)
     orders = []
 
     def delete(self):

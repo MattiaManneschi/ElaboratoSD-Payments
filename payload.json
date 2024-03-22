@@ -1,0 +1,23 @@
+{
+  "checkout": {
+    "integrationType": "HostedPaymentPage",
+    "returnUrl": "https://<YOUR_SERVER>/cart.html",
+    "termsUrl": "https://<YOUR_SERVER>/terms.htmtl"
+  },
+  "order": {
+    "items": [
+      {
+        "reference": "ref42",
+        "name": "Demo product",
+        "quantity": 2,
+        "unit": "pcs",
+        "unitPrice": 80000,
+        "grossTotalAmount": 160000,
+        "netTotalAmount": 160000
+      }
+    ],
+    "amount": 160000,
+    "currency": "SEK",
+    "reference": "Demo Order"
+  }
+}
